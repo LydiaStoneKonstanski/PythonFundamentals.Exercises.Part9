@@ -16,13 +16,14 @@ def read_all_json_files(folder_path):
     for root, directories, files in os.walk(folder_path):
         for file in files:
             file_path = root + "/" + file
-            #TODO catch exception for not a json file
             try:
                 json_object = read_json(file_path)
                 json_list.append(json_object)
-            except JSONDecodeError:
+            except (JSONDecodeError, UnicodeDecodeError):
                 # Not a valid json file
+                #utf 8 thinks pickles are sour
                 pass
+
         break # End the walk and don't go into subfolders
     return json_list
 
@@ -37,10 +38,10 @@ def load_pickle(file_path):
 
 if __name__=="__main__":
     #pprint(read_json("data/super_smash_bros/link.json"))
-    #pprint(read_all_json_files("data/super_smash_bros/"))
+    pprint(read_all_json_files("data/super_smash_bros/"))
 
-    json_object = read_json("data/super_smash_bros/link.json")
-    pickle_file = "data/super_smash_bros/link.pickle"
-    write_pickle(json_object, pickle_file)
+    #json_object = read_json("data/super_smash_bros/link.json")
+    #pickle_file = "data/super_smash_bros/link.pickle"
+    #write_pickle(json_object, pickle_file)
 
-    pprint(load_pickle(pickle_file))
+    #pprint(load_pickle(pickle_file))
